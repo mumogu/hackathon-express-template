@@ -9,7 +9,7 @@ services:
       - /src/node_modules
     links:
      - mongo
-    command: nodemon /src/bin/www
+    command: nodemon --legacy-watch /src/bin/www
     environment:
       - NODE_ENV=development
       # - NODE_ENV=production

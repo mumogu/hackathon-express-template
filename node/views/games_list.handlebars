@@ -1,0 +1,21 @@
+<h1>Hier sind alle laufenden Spiele</h1>
+
+<ul>
+    {{#each games }}
+    <li>
+        <b>{{ this.name }}</b>
+        ({{ this.words.length }} Wörter,
+        {{ this.players.length }} Spieler)
+        <a href="/game/{{ this.name }}">klick</a>
+    </li>
+    {{/each}}
+
+</ul>
+
+
+<br><br><br>
+<hr>
+<p>Das Objekt sieht im Detail so aus:</p>
+<pre>
+    {{ games }}
+</pre>
