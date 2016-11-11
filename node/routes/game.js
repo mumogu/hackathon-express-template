@@ -5,7 +5,9 @@ var router = express.Router();
 var Game = require('../models/game');
 var Player = require('../models/player');
 
+//
 // Get all Games and list them
+//
 router.get('/', function(req, res, next) {
 
     Game.find({}, function(err, games) {
@@ -16,7 +18,9 @@ router.get('/', function(req, res, next) {
     });
 });
 
+//
 // Get a specific game
+//
 router.get('/:game_name', function(req, res, next) {
 
     var requested_game = req.params.game_name;
@@ -30,12 +34,15 @@ router.get('/:game_name', function(req, res, next) {
     });
 });
 
+//
 // Display a specific users view of the game
+//
 router.get('/:game_name/:user_id', function(req, res, next) {
 
     var game_name = req.params.game_name;
     var user_id = req.params.user_id;
 
+    // This won't be necessary in a bit. This will be loaded via sockets.
     Game.findOne({ name: game_name}, function(err, game) {
         if(err || !game)
             res.send('Fehler. Spiel nicht gefunden: ' + game_name);
@@ -54,4 +61,5 @@ router.get('/:game_name/:user_id', function(req, res, next) {
         }
     });
 });
+
 module.exports = router;
