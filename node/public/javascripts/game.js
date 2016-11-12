@@ -29,17 +29,15 @@ socket.on('game_update', function (data) {
     // Render the words into the table. The permutation array at position i specifies the index of the word in the words
     // array to be rendered.
     // Also mark some cells as crossed out according to the data sent from the server.
-    //$('#game-table td').each(function (i) {
     $('div.square-table-cell').each(function (i) {
 
-        //console.log($(this).children().css('class', 'square-table-cell'));
         $(this).html(words[permutation[i]]);
 
         if (score_matrix[i] == '0' && $(this).hasClass('crossout')) {
-            $(this).removeClass('crossout');
+            $(this).parent().parent().parent().removeClass('crossout');
         }
         if (score_matrix[i] == '1' && !$(this).hasClass('crossout')) {
-            $(this).addClass('crossout');
+            $(this).parent().parent().parent().addClass('crossout');
         }
     });
 });
@@ -50,7 +48,14 @@ socket.on('status_update', function (data) {
     $('ul#player-list').empty();
 
     active_players.forEach(function (player) {
-        $('ul#player-list').append('<li>' + player.player_name + ' (' + player.num_hits + ' Treffer) ' + (player.is_online ? '(online)' : '(offline)') + '</li>');
+        $('ul#player-list').append(
+            '<li>' +
+            player.player_name +
+            ' (' +
+            player.num_hits +
+            ' Treffer) ' +
+            (player.is_online ? '(online)' : '(offline)') +
+            '</li>');
     });
 });
 
