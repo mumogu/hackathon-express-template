@@ -7,7 +7,7 @@ RUN npm install -g nodemon
 RUN npm install -s express-handlebars
 
 WORKDIR /src
-COPY package.json /src/package.json
+COPY . /src/
 RUN npm install
 
 EXPOSE 3000
