@@ -12,3 +12,38 @@
 .crossout {
     background-color: #5cb85c;
 }
+
+div.square-wrapper {
+    max-width: 80vh;
+}
+
+div.square {
+    border: 1px solid red;
+    position: relative;
+    overflow: hidden;
+    width: 25%;
+    padding-bottom: 25%;
+    margin: 0%;
+    float: left;
+}
+
+div.square-content {
+    text-align: center;
+    position: absolute;
+    height: 90%;
+    width: 90%;
+    padding: 10% 5%;
+}
+
+div.square-table {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+div.square-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+}
