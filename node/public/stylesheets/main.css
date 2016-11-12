@@ -1,16 +1,5 @@
-#game-table {
-    max-width: 800px;
-    width: 100%;
-}
-
-#game-table td {
-    border: 1px solid black;
-    text-align: center;
-    height: 100px;
-}
-
 .crossout {
-    background-color: #5cb85c;
+    background-color: #67b168;
 }
 
 div.square-wrapper {
@@ -18,7 +7,7 @@ div.square-wrapper {
 }
 
 div.square {
-    border: 1px solid red;
+    border: 1px solid black;
     position: relative;
     overflow: hidden;
     width: 25%;

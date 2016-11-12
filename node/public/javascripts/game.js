@@ -29,9 +29,10 @@ socket.on('game_update', function (data) {
     // Render the words into the table. The permutation array at position i specifies the index of the word in the words
     // array to be rendered.
     // Also mark some cells as crossed out according to the data sent from the server.
-    $('#game-table td').each(function (i) {
-    //$('div.square').each(function (i) {
+    //$('#game-table td').each(function (i) {
+    $('div.square-table-cell').each(function (i) {
 
+        //console.log($(this).children().css('class', 'square-table-cell'));
         $(this).html(words[permutation[i]]);
 
         if (score_matrix[i] == '0' && $(this).hasClass('crossout')) {
@@ -55,7 +56,7 @@ socket.on('status_update', function (data) {
 
 function getScoreMatrix() {
     var ret = '';
-    $('#game-table td').each(function (i) {
+    $('div.square').each(function (i) {
         if ($(this).hasClass('crossout'))
             ret += '1'
         else
@@ -68,7 +69,7 @@ function getScoreMatrix() {
 $(document).ready(function () {
 
     // Toogle the crossout animation locally and send a notification to the server, that the cell was crossed out.
-    $('#game-table td').click(function () {
+    $('div.square').click(function () {
         $(this).toggleClass('crossout');
         socket.emit('score_update', getScoreMatrix());
     });
