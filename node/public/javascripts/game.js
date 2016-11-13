@@ -1,7 +1,7 @@
 var socket = io();
 var click_sound = new Audio('/sounds/pop_drip.wav');
 var bingo_sound_1 = new Audio('/sounds/thats-a-bingo.mp3');
-var last_score = 0;
+var bingo_sound_2 = new Audio('/sounds/male-voice-bingo.mp3');
 
 function get_num_bingos_from_string(matrix_string) {
 
@@ -40,7 +40,13 @@ function get_num_bingos_from_string(matrix_string) {
 }
 
 function play_random_bingo_sound() {
-    bingo_sound_1.play();
+
+    var sounds = [
+        bingo_sound_1,
+        bingo_sound_2
+    ];
+
+    sounds[Math.floor(Math.random() * sounds.length)].play();
 }
 
 socket.on('connect', function (s) {
@@ -95,18 +101,8 @@ socket.on('status_update', function (data) {
     active_players.forEach(function (player) {
 
         if (player.is_online) {
-
             // check if player has bingo and react accordingly
             var bingos = get_num_bingos_from_string(player.score_matrix);
-
-            var path = window.location.pathname.split('/');
-            var player_id = path[path.length - 1];
-
-            if(player.player_id == player_id) {
-                console.log('old:' + last_score + ' new: ' + bingos);
-                if(bingos  > last_score)
-                    play_random_bingo_sound();
-            }
 
             $('ul#player-list').append(
                 '<li><b>' +
@@ -145,11 +141,19 @@ function getScoreMatrix() {
 // UI-triggered functions
 $(document).ready(function () {
     $('div.square').click(function () {
-        last_score = get_num_bingos_from_string(getScoreMatrix());
-        $(this).toggleClass('crossout');
-        socket.emit('score_update', getScoreMatrix());
-        click_sound.play();
+        var score_matrix = getScoreMatrix();
+        last_score = get_num_bingos_from_string(score_matrix);
 
+        $(this).toggleClass('crossout');
+
+        var current_score_matrix = getScoreMatrix();
+        var current_score = get_num_bingos_from_string(current_score_matrix);
+        socket.emit('score_update', current_score_matrix);
+
+        if(current_score > last_score)
+            play_random_bingo_sound();
+        else
+            click_sound.play();
     });
 });
 
