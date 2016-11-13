@@ -43,4 +43,8 @@ Player({
   res.send('Das hat funktioniert.');
 });
 
+router.get('/crash', function(req, res, next) {
+  process.exit();
+})
+
 module.exports = router;
