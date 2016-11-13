@@ -12,7 +12,8 @@ module.exports = function (io) {
             player_name: player.name,
             player_id: String(player._id),
             is_online: is_online,
-            num_hits: player.score_matrix.split('1').length - 1
+            num_hits: player.score_matrix.split('1').length - 1,
+            score_matrix: player.score_matrix
         });
         game.save();
 
