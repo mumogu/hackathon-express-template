@@ -55,7 +55,7 @@ socket.on('status_update', function (data) {
             ' (' +
             player.num_hits +
             ' Treffer) ' +
-            (player.is_online ? '(online)' : '(offline)') +
+            (player.is_online ? '(<span style="color: green;">online</span>)' : '(<span style="color: red;">offline</span>)') +
             '</li>');
     });
 });
