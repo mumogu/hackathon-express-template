@@ -1,16 +1,19 @@
-<h1>Hier sind alle laufenden Spiele</h1>
 
-<ul>
-    {{#each games }}
-    <li>
-        <b>{{ this.name }}</b>
-        ({{ this.words.length }} Wörter,
-        {{ this.players.length }} Spieler)
-        <a href="/game/{{ this.name }}">klick</a>
-    </li>
-    {{/each}}
+<div class="row">
+    <h3>Hier sind alle laufenden Spiele</h3>
 
-</ul>
+    <ul>
+        {{#each games }}
+            <li>
+                <a href="/game/{{ this.name }}">{{ this.name }}</a>
+                ({{ this.words.length }} Wörter,
+                {{ this.players.length }} Spieler)
+            </li>
+        {{/each}}
+
+    </ul>
+</div>
+
 
 <!--
 <br><br><br>
