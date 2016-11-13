@@ -1,5 +1,5 @@
 var socket = io();
-var click_sound = new Audio('/')
+var click_sound = new Audio('/sounds/pop_drip.wav')
 
 socket.on('connect', function (s) {
 
@@ -78,6 +78,7 @@ $(document).ready(function () {
     $('div.square').click(function () {
         $(this).toggleClass('crossout');
         socket.emit('score_update', getScoreMatrix());
+        click_sound.play();
     });
 });
 
