@@ -1,4 +1,5 @@
 var socket = io();
+var click_sound = new Audio('/')
 
 socket.on('connect', function (s) {
 
