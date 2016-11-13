@@ -1,0 +1,38 @@
+<h1>Willkommen zum Spiel {{ game }}</h1>
+
+<p>Damit andere Spieler deinen Punktestand sehen können, brauche ich deinen Namen:</p>
+<br>
+
+{{#if has_error}}
+    <div class="row">
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Oh snap!</strong> Es gab einen Fehler mit deinem Namen.
+        </div>
+
+    </div>
+{{/if}}
+
+<div class="row">
+    <div class="col-sm-3">
+
+        <form method="POST">
+            <form>
+                <div class="form-group">
+                    <label for="form_player_name">Spielername</label>
+                    <input type="text" name="player_name" class="form-control"
+                           id="form_player_name"
+                           aria-describedby="username_help"
+                           placeholder="Spielername">
+                    <small id="username_help"
+                           class="form-text text-muted">
+                           Dein Spielername muss mindestens zwei Zeichen lang sein.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Los geht's!</button>
+            </form>
+        </form>
+    </div>
+</div>
+
