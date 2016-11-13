@@ -5,6 +5,25 @@ var router = express.Router();
 var Game = require('../models/game');
 var Player = require('../models/player');
 
+function fisher_yates_shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
 //
 // Get all Games and list them
 //
@@ -54,7 +73,7 @@ router.post('/:game_name', function(req, res, next) {
         else {
             var new_player = Player({
                 name: requested_player_name,
-                word_permutation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0],
+                word_permutation: fisher_yates_shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
                 score_matrix: '0000000000000000'
             });
 
