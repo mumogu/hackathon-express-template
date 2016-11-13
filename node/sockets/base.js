@@ -21,7 +21,8 @@ module.exports = function (io) {
         io.emit('status_update', {
             game_id: String(game._id),
             game_name: game.name,
-            active_players: game.active_players
+            active_players: game.active_players,
+            player_id: String(player._id)
         });
     }
 

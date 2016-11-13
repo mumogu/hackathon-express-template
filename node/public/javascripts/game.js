@@ -4,9 +4,17 @@ var bingo_sound_1 = new Audio('/sounds/thats-a-bingo.mp3')
 
 function get_num_bingos_from_string(matrix_string) {
 
-    // This array stores a list of correct score_matrix values to be used
-    // as binary masks
-    var correct_strings = [
+    // Input String is parsed as integer to allow binary comparison
+    var matrix_int = parseInt(matrix_string, 2);
+    var num_bingos = 0;
+
+    // This array stores a list of correct score_matrix values to be
+    // used as binary masks. Strings need to be parsed as integers
+    // and after that compared with matrix_int via binary and.
+    //
+    // Two separate maps are used in order to not repeat the parse()
+    // call.
+    [
         // Rows
         '1111000000000000',
         '0000111100000000',
@@ -20,39 +28,14 @@ function get_num_bingos_from_string(matrix_string) {
         // Diagonals
         '1000010000100001',
         '0001001001001000'
-    ];
-
-    // Now convert these strings to integers
-    var correct_ints = correct_strings.map(function(mask_string) {
+    ].map(function(mask_string) {
         return parseInt(mask_string, 2);
+    }).map(function(mask_int) {
+        if((matrix_int & mask_int) == mask_int)
+            num_bingos++;
     });
 
-    // Parse input string as integer
-    var matrix_int = parseInt(matrix_string, 2);
-
-    // Loop over correct masks and count number of bingos
-    var num_bingos = 0;
-    for(var i=0; i<correct_ints.length; i++) {
-        var mask = parseInt((correct_strings[i]),2 );
-        console.log('comparing ' + Number(matrix_int, 2).toString(2) + ' to ' + mask.toString(2));
-
-
-
-        if((matrix_int & (correct_ints[i])) == (correct_ints[i]))
-            num_bingos++;
-    }
-
-    for(var j=0; j<correct_ints.length; j++) {
-        console.log(typeof(correct_ints[j]));
-    }
-
-    //var bingo_bool = (matrix_int & mask_int) == mask_int
-
-    //console.log(Number(matrix_int & mask_int).toString(2));
-    console.log(num_bingos);
-
-
-    return false;
+    return num_bingos;
 }
 
 socket.on('connect', function (s) {
@@ -98,6 +81,10 @@ socket.on('game_update', function (data) {
 });
 
 socket.on('status_update', function (data) {
+
+    var old_score = get_num_bingos_from_string(getScoreMatrix());
+    var my_sore = 0;
+
     active_players = data.active_players;
 
     $('ul#player-list').empty();
@@ -106,11 +93,19 @@ socket.on('status_update', function (data) {
     active_players.forEach(function (player) {
 
 
+
         if (player.is_online) {
 
             // check if player has bingo and react accordingly
-            if(get_num_bingos_from_string(player.score_matrix)) {
-                console.log('BINGO!');
+            var bingos = get_num_bingos_from_string(player.score_matrix);
+
+            var path = window.location.pathname.split('/');
+            var player_id = path[path.length - 1];
+
+            if(player.player_id == player_id) {
+                console.log('old:' + old_score + ' new: ' + bingos);
+                if(bingos  > old_score)
+                    bingo_sound_1.play();
             }
 
             $('ul#player-list').append(
@@ -120,6 +115,8 @@ socket.on('status_update', function (data) {
                 player.num_hits +
                 ' Treffer, ' +
                 (player.is_online ? '<span style="color: green;">online</span>)' : '<span style="color: red;">offline</span>)') +
+                (bingos ? ' <span class="glyphicon glyphicon-thumbs-up"></span>' +
+                ( bingos > 1 ? ' x' + bingos : '' ) : '') +
                 '</li>');
         } else {
             $('ul#inactive-player-list').append(
@@ -135,6 +132,7 @@ socket.on('status_update', function (data) {
 
 
     });
+
 });
 
 function getScoreMatrix() {
