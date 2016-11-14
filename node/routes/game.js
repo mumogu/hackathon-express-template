@@ -37,49 +37,9 @@ router.get('/', function (req, res, next) {
     });
 });
 
-//
-// Serve the page to create a new game
-//
-router.get('/create', function (req, res, next) {
-    res.render('newgame', {'has_error': false});
+router.get('/create', function(req, res, next) {
+   res.render('newgame', {});
 });
-
-//
-// The form to create a new game was sent
-//
-router.post('/create', function (req, res, next) {
-    var game_name = req.body.name;
-    var game_words = req.body.words.split('\r\n').filter(function (w) {
-        if (w == '')
-            return false;
-        return true;
-    });
-
-    console.log(game_words);
-
-    if (game_name.length < 2 || game_words.length < 16) {
-        res.render('newgame', {
-            has_error: true,
-            error: 'Fehler.',
-            name: game_name,
-            words: req.body.words
-        });
-        return;
-    }
-
-    Game({
-        name: game_name,
-        words: game_words,
-        players: [],
-        active_players: []
-    }).save(function (err, game) {
-        res.redirect('/game/' + game_name);
-        return;
-    });
-
-
-});
-
 
 //
 // Get a specific game
@@ -93,15 +53,11 @@ router.get('/:game_name', function (req, res, next) {
             res.send('Fehler. Spiel nicht gefunden: ' + requested_game);
             return;
         }
-        res.render('newplayer', {game: game.name, has_error: false});
+        res.render('newplayer', { game: game.name, has_error: false });
     });
 });
 
-
-//
-// Form to create a new user was sent
-//
-router.post('/:game_name', function (req, res, next) {
+router.post('/:game_name', function(req, res, next) {
     var requested_game = req.params.game_name;
     var requested_player_name = req.body.player_name;
 
@@ -111,12 +67,8 @@ router.post('/:game_name', function (req, res, next) {
             return;
         }
 
-        if (!requested_player_name || requested_player_name.length < 2) {
-            res.render('newplayer', {
-                game: game.name,
-                has_error: true,
-                error: 'Der Spielername muss mindestens zwei Zeichen lang sein.'
-            });
+        if(!requested_player_name || requested_player_name.length < 2) {
+            res.render('newplayer', {game: game.name, has_error: true, error: 'Der Spielername muss mindestens zwei Zeichen lang sein.'});
         }
         else {
             var new_player = Player({
@@ -125,8 +77,8 @@ router.post('/:game_name', function (req, res, next) {
                 score_matrix: '0000000000000000'
             });
 
-            new_player.save(function (err, player) {
-                if (err || !player) {
+            new_player.save(function(err, player) {
+                if(err || !player) {
                     res.send('Fehler.');
                 }
 
@@ -148,6 +100,7 @@ router.post('/:game_name', function (req, res, next) {
 // Display a specific users view of the game
 //
 router.get('/:game_name/:user_id', function (req, res, next) {
+
     var game_name = req.params.game_name;
     var user_id = req.params.user_id;
 
