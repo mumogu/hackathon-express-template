@@ -46,7 +46,7 @@ module.exports = function (io) {
             console.log('Client sent init message: ' + player_id + ' on game ' + game_name);
 
             // Lookup if the specified game and player exist in the database
-            Game.findOne({name: game_name}, function (err, game) {
+            Game.findOne({name: decodeURIComponent(game_name)}, function (err, game) {
                 if (err || !game) {
                     console.log('init: Requested game does not exists in the database');
                     return;
@@ -109,7 +109,7 @@ module.exports = function (io) {
             }
 
             // Get game, player and send updated online status to all connected clients
-            Game.findOne({name: game_name}, function (err, game) {
+            Game.findOne({name: decodeURIComponent(game_name)}, function (err, game) {
                 if (err || !game) {
                     console.log('disconnect: cannot find game in database. Aborting.');
                     return;
