@@ -1,19 +1,19 @@
-
 <div class="row">
-    <h3>Hier sind alle laufenden Spiele</h3>
+    <div class="col-sm-5">
+        <h3>Hier sind alle laufenden Spiele</h3>
 
-    <ul>
-        {{#each games }}
-            <li>
-                <a href="/game/{{ this.name }}">{{ this.name }}</a>
-                ({{ this.words.length }} Wörter,
-                {{ this.players.length }} Spieler)
-            </li>
-        {{/each}}
+        <ul>
+            {{#each games }}
+                <li>
+                    <a href="/game/{{ this.name }}">{{ this.name }}</a>
+                    ({{ this.words.length }} Wörter,
+                    {{ this.players.length }} Spieler)
+                </li>
+            {{/each}}
 
-    </ul>
+        </ul>
+    </div>
 </div>
-
 
 <!--
 <br><br><br>

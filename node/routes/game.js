@@ -86,6 +86,9 @@ router.post('/:game_name', function(req, res, next) {
                 game.save();
 
                 res.redirect('/game/' + game.name + '/' + player._id);
+                //res.statusCode = 302;
+                //res.setHeader("Location", '/game/' + game.name + '/' + player._id);
+                //res.end();
             });
         }
 
