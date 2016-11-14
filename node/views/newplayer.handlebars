@@ -1,27 +1,29 @@
 <div class="row">
-    <div class="col-sm-4">
-    <h3>Hier geht's zum Spiel <b>{{ game }}</b></h3>
+    <div class="col-sm-6 col-sm-offset-1">
+        <h3>Hier geht's zum Spiel <b>{{ game }}</b></h3>
 
-    <p>
-        Damit andere Spieler deinen Punktestand sehen können, brauche ich deinen Namen. Wenn dein Chef mitspielt,
-        solltest du dir vielleicht besser ein Pseudonym ausdenken. Wenn du noch etwas Inspiration braucht, hilft
-        <a href="http://montanaflynn.me/lab/startup-name-generator/">diese Seite</a> gerne weiter.
-    </p>
+        <p>
+            Damit andere Spieler deinen Punktestand sehen können, brauche ich deinen Namen. Wenn dein Chef mitspielt,
+            solltest du dir vielleicht besser ein Pseudonym ausdenken. Wenn du noch etwas Inspiration braucht, hilft
+            <a href="http://montanaflynn.me/lab/startup-name-generator/">diese Seite</a> gerne weiter.
+        </p>
 
-    <br>
+        <br>
     </div>
 </div>
 
 {{#if has_error}}
     <div class="row">
-        <div class="alert alert-danger" role="alert">
-            <strong>Oh snap!</strong> Es gab einen Fehler mit deinem Namen. Versuch es einfach nochmal.
+        <div class="col-sm-6 col-sm-offset-1">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oh snap!</strong> Es gab einen Fehler mit deinem Namen. Versuch es einfach nochmal.
+            </div>
         </div>
     </div>
 {{/if}}
 
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3 col-sm-offset-1">
 
         <form method="POST">
             <form>
@@ -33,7 +35,7 @@
                            placeholder="Spielername">
                     <small id="username_help"
                            class="form-text text-muted">
-                           Dein Spielername muss mindestens zwei Zeichen lang sein.
+                        Dein Spielername muss mindestens zwei Zeichen lang sein.
                     </small>
                 </div>
 

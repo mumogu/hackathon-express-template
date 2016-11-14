@@ -1,14 +1,19 @@
 <div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h3>Neues Spiel erstellen</h3>
-
+    <div class="col-sm-6 col-sm-offset-1">
         {{#if has_error}}
             <div class="row">
                 <div class="alert alert-danger" role="alert">
-                    <strong>Oh snap!</strong> Es gab einen Fehler mit deinem Namen. Versuch es einfach nochmal.
+                    <strong>Oh snap!</strong> Es gab einen Fehler deiner Eingabe. Versuch es einfach nochmal.
                 </div>
             </div>
         {{/if}}
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3 col-sm-offset-1">
+        <h3>Neues Spiel erstellen</h3>
 
         <form method="POST">
             <div class="form-group">
@@ -16,8 +21,19 @@
                 <input type="text" name="name" class="form-control" id="name-input" placeholder="Kickoff Meeting">
             </div>
             <div class="form-group">
-                <label for="words-input">Wörter (min. 16)</label>
-                <textarea name="words" class="form-control" if="words-input" rows="20" placeholder="Bullshit goes here"></textarea>
+                <label for="words-input">Buzzwords</label>
+                <textarea name="words"
+                          class="form-control"
+                          if="words-input"
+                          rows="20"
+                          placeholder="Bullshit goes here"
+                          aria-describedby="words-help">
+
+                </textarea>
+                <small id="words-help"
+                       class="form-text text-muted">
+                    Wörter werden durch Zeilenumbrüche getrennt. Bitte mindestens 16 Wörter eingeben.
+                </small>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
