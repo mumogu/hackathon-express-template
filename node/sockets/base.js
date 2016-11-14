@@ -87,7 +87,7 @@ module.exports = function (io) {
                 player.score_matrix = data;
                 player.save();
 
-                Game.findOne({ name: game_name }, function(err, game) {
+                Game.findOne({ name: decodeURIComponent(game_name) }, function(err, game) {
                     if(err || !game) {
                         console.log('score_update: game not found. Aborting');
                         return;

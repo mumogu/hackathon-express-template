@@ -80,10 +80,12 @@ router.post('/create', function (req, res, next) {
     router.get('/:game_name', function (req, res, next) {
 
         var requested_game = req.params.game_name;
+        //console.log(requested_game);
+        //console.log(encodeURIComponent(requested_game));
 
         Game.findOne({name: requested_game}, function (err, game) {
             if (err || !game) {
-                res.send('Fehler. Spiel nicht gefunden: ' + requested_game);
+                res.send('GET: /game_name: Fehler. Spiel nicht gefunden: ' + requested_game);
                 return;
             }
             res.render('newplayer', {game: game.name, has_error: false});
@@ -96,7 +98,7 @@ router.post('/create', function (req, res, next) {
 
         Game.findOne({name: requested_game}, function (err, game) {
             if (err || !game) {
-                res.send('Fehler. Spiel nicht gefunden: ' + requested_game);
+                res.send('POST to /game_name:  Spiel nicht gefunden: ' + requested_game);
                 return;
             }
 
@@ -122,7 +124,7 @@ router.post('/create', function (req, res, next) {
                     game.players.push(player._id);
                     game.save();
 
-                    res.redirect('/game/' + game.name + '/' + player._id);
+                    res.redirect('/game/' + encodeURIComponent(game.name) + '/' + player._id);
                     //res.statusCode = 302;
                     //res.setHeader("Location", '/game/' + game.name + '/' + player._id);
                     //res.end();
@@ -140,6 +142,9 @@ router.post('/create', function (req, res, next) {
 
         var game_name = req.params.game_name;
         var user_id = req.params.user_id;
+
+        console.log(game_name);
+        console.log(user_id);
 
         // This won't be necessary in a bit. This will be loaded via sockets.
         Game.findOne({name: game_name}, function (err, game) {
