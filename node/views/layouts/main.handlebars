@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <title>¯\_(ツ)_/¯</title>
 
+    <!-- This is the magic bit that makes bootstrap work on mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Obligatory Adams reference -->
+    <meta name="answer" content="42">
 
     <!-- Custom Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
@@ -17,10 +21,12 @@
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
 
+    <!-- Common javascript for all pages. Needs to be loaded after JavaScript -->
     <script src="/javascripts/common.js"></script>
 </head>
 <body>
 
+    <!-- Full width responsive navbar at top -->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -48,7 +54,6 @@
     </nav>
 
     <div class="container">
-
         {{{body}}}
     </div>
 </body>

@@ -29,10 +29,10 @@ function get_num_bingos_from_string(matrix_string) {
         // Diagonals
         '1000010000100001',
         '0001001001001000'
-    ].map(function(mask_string) {
+    ].map(function (mask_string) {
         return parseInt(mask_string, 2);
-    }).map(function(mask_int) {
-        if((matrix_int & mask_int) == mask_int)
+    }).map(function (mask_int) {
+        if ((matrix_int & mask_int) == mask_int)
             num_bingos++;
     });
 
@@ -150,7 +150,7 @@ $(document).ready(function () {
         var current_score = get_num_bingos_from_string(current_score_matrix);
         socket.emit('score_update', current_score_matrix);
 
-        if(current_score > last_score)
+        if (current_score > last_score)
             play_random_bingo_sound();
         else
             click_sound.play();

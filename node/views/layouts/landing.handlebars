@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>¯\_(ツ)_/¯</title>
+
+    <!-- This is the magic bit that makes bootstrap work on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Obligatory Adams reference -->
+    <meta name="answer" content="42">
+
+    <!-- Custom Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+
+    <!-- Favicon can also be served via a node middleware -->
+    <link rel="icon" href="/images/favicon.png">
+
+    <!-- Bootstrap and jQuery includes -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+
+    <!-- Common javascript for all pages. Needs to be loaded after JavaScript -->
+    <script src="/javascripts/common.js"></script>
+</head>
+<body>
+
+<!-- Full width responsive navbar at top -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">
+                <img alt="Brand" src="...">
+            </a>-->
+            <a class="navbar-brand" href="/">BullshitBingo™</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="nav-games"><a href="/game">Aktive Spiele</a></li>
+                <li id="nav-new"><a href="/game/create">Neues Spiel erstellen</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+{{{body}}}
+
+</body>
+</html>
