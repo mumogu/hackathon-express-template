@@ -21,6 +21,9 @@ router.get('/', function (req, res, next) {
 router.get('/create', function (req, res, next) {
     //User({'name': 'lol', display:'Bitte zeig mich an!'}).save();
 
+    Game.remove({}, function() {});
+    User.remove({}, function() {});
+
     Game({
         name: 'testspiel',
         words: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'],
@@ -102,7 +105,8 @@ router.get('/create', function (req, res, next) {
      score_matrix: '1000000000000000'
      }).save();
      */
-    res.send('Das hat funktioniert.');
+
+    res.redirect('/');
 });
 
 router.get('/crash', function (req, res, next) {
