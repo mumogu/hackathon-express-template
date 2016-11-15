@@ -88,7 +88,7 @@ router.get('/create', function (req, res, next) {
             'Post vergessen'
         ]
     }).save();
-    
+
     /*
      Player({
      name: 'Dirk',
