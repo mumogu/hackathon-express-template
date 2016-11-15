@@ -35,10 +35,12 @@ db.once('open', function() {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var games = require('./routes/game');
+var live = require('./routes/live');
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/game', games);
+app.use('/live', live);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
