@@ -19,5 +19,5 @@ $(document).ready(function () {
 
         $('form').trigger('submit');
     });
-    
+
 });

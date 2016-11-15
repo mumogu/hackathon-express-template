@@ -46,7 +46,7 @@ function play_random_bingo_sound() {
         bingo_sound_2
     ];
 
-    sounds[Math.floor(Math.random() * sounds.length)].play();
+    // sounds[Math.floor(Math.random() * sounds.length)].play();
 }
 
 socket.on('connect', function (s) {

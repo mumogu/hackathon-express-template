@@ -63,6 +63,32 @@ router.get('/create', function (req, res, next) {
             'IoT']
     }).save();
 
+    Game({
+        name: 'Sitzung',
+        players: [],
+        active_player: [],
+        words: [
+            'Wer schreibt Protokoll?',
+            'PPP nicht gemacht',
+            'Wie lange machen wir Pause?',
+            'Feedback',
+            'Doodle-Rüffel',
+            'Bier vor Top 4',
+            'Aufgabe wird ausgenast',
+            'Alle gucken auf Laptop',
+            'Leander isst für zwei',
+            'Robin kommt zu spät',
+            'Bring mir ein Bier mit!',
+            'Janning ist alt',
+            'Pascale pöbelt',
+            'Vorstellungsrunde',
+            'Wie schreibt man Protokoll?',
+            'Aufgabe wurde nicht gemacht',
+            'Sexistische Kackscheiße',
+            'Post vergessen'
+        ]
+    }).save();
+    
     /*
      Player({
      name: 'Dirk',
