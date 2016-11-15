@@ -46,7 +46,7 @@ function play_random_bingo_sound() {
         bingo_sound_2
     ];
 
-    // sounds[Math.floor(Math.random() * sounds.length)].play();
+    sounds[Math.floor(Math.random() * sounds.length)].play();
 }
 
 socket.on('connect', function (s) {
@@ -152,8 +152,8 @@ $(document).ready(function () {
 
         if(current_score > last_score)
             play_random_bingo_sound();
-        else
-            click_sound.play();
+        //else
+        //    click_sound.play();
     });
 });
 
