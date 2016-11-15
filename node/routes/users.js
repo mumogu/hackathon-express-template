@@ -25,6 +25,32 @@ router.get('/create', function (req, res, next) {
     User.remove({}, function() {});
 
     Game({
+        name: 'Sitzung',
+        players: [],
+        active_player: [],
+        words: [
+            'Wer schreibt Protokoll?',
+            'PPP nicht gemacht',
+            'Wie lange machen wir Pause?',
+            'Feedback',
+            'Doodle-Rüffel',
+            'Bier vor Top 4',
+            'Aufgabe wird ausgenast',
+            'Alle gucken auf Laptop',
+            'Leander isst für zwei',
+            'Robin kommt zu spät',
+            'Bring mir ein Bier mit!',
+            'Janning ist alt',
+            'Pascale pöbelt',
+            'Vorstellungsrunde',
+            'Wie schreibt man Protokoll?',
+            'Aufgabe wurde nicht gemacht',
+            'Sexistische Kackscheiße',
+            'Post vergessen'
+        ]
+    }).save();
+    
+    Game({
         name: 'testspiel',
         words: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'],
         players: [],
@@ -64,32 +90,6 @@ router.get('/create', function (req, res, next) {
             'Low hanging fruit',
             'Gamification',
             'IoT']
-    }).save();
-
-    Game({
-        name: 'Sitzung',
-        players: [],
-        active_player: [],
-        words: [
-            'Wer schreibt Protokoll?',
-            'PPP nicht gemacht',
-            'Wie lange machen wir Pause?',
-            'Feedback',
-            'Doodle-Rüffel',
-            'Bier vor Top 4',
-            'Aufgabe wird ausgenast',
-            'Alle gucken auf Laptop',
-            'Leander isst für zwei',
-            'Robin kommt zu spät',
-            'Bring mir ein Bier mit!',
-            'Janning ist alt',
-            'Pascale pöbelt',
-            'Vorstellungsrunde',
-            'Wie schreibt man Protokoll?',
-            'Aufgabe wurde nicht gemacht',
-            'Sexistische Kackscheiße',
-            'Post vergessen'
-        ]
     }).save();
 
     /*
