@@ -5,6 +5,9 @@ var router = express.Router();
 var Game = require('../models/game');
 var Player = require('../models/player');
 
+//
+// Fisher-Yates-Algorithm to shuffle an array
+//
 function fisher_yates_shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -70,8 +73,6 @@ router.post('/create', function (req, res, next) {
         });
     }
 
-
-
 });
 
 //
@@ -80,14 +81,25 @@ router.post('/create', function (req, res, next) {
     router.get('/:game_name', function (req, res, next) {
 
         var requested_game = req.params.game_name;
-        //console.log(requested_game);
-        //console.log(encodeURIComponent(requested_game));
 
         Game.findOne({name: requested_game}, function (err, game) {
             if (err || !game) {
                 res.send('GET: /game_name: Fehler. Spiel nicht gefunden: ' + requested_game);
                 return;
             }
+
+            console.log('cookies: ');
+            console.log(req.cookies);
+            console.log(decodeURIComponent('bingo Startup'));
+            console.log(encodeURIComponent('bingo Startup'));
+
+            var url_cookie = req.cookies[encodeURIComponent('bingo-' + game.name)];
+
+            if(url_cookie) {
+                res.redirect('/game/' + encodeURIComponent(game.name) + '/' + url_cookie);
+                return;
+            }
+
             res.render('newplayer', {game: game.name, has_error: false});
         });
     });
@@ -124,10 +136,10 @@ router.post('/create', function (req, res, next) {
                     game.players.push(player._id);
                     game.save();
 
+                    // Set cookie with user id
+                    res.cookie(encodeURIComponent('bingo-' + game.name), String(new_player._id));
+
                     res.redirect('/game/' + encodeURIComponent(game.name) + '/' + player._id);
-                    //res.statusCode = 302;
-                    //res.setHeader("Location", '/game/' + game.name + '/' + player._id);
-                    //res.end();
                 });
             }
 
