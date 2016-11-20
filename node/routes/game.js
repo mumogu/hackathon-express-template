@@ -161,12 +161,15 @@ router.post('/create', function (req, res, next) {
         // This won't be necessary in a bit. This will be loaded via sockets.
         Game.findOne({name: game_name}, function (err, game) {
             if (err || !game)
-                res.send('Fehler. Spiel nicht gefunden: ' + game_name);
+                res.render('error', {message: 'Spieler nicht gefunden', error: 'Spieler ' + player + ' nicht gefunden.'});
+
             else {
 
                 Player.findById(user_id, function (err, player) {
-                    if (err || !player)
-                        res.send('Fehler. Benutzer nicht gefunden: ' + player);
+                    if (err || !player) {
+                        res.render('error', {message: 'Spieler nicht gefunden', error: 'Spieler ' + player + ' nicht gefunden.'});
+                        return;
+                    }
                     else {
                         res.render('game', {
                             game: game,
