@@ -33,12 +33,10 @@ db.once('open', function() {
 
 // Routing setup
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var games = require('./routes/game');
 var live = require('./routes/live');
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/game', games);
 app.use('/live', live);
 
