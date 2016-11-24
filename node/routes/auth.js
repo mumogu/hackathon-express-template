@@ -10,13 +10,14 @@ var Game = require('../models/game');
 // Get all Games and list them
 //
 router.get('/', function (req, res, next) {
+    console.log('======================================= isAuthenticated: ' + req.isAuthenticated());
     res.render('auth', {});
 });
 
 router.get('/facebook', passport.authenticate('facebook'));
 
 router.get('/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/auth/success',
+    successRedirect: '/auth',
     failureRedirect: '/auth/error'
 }));
 
