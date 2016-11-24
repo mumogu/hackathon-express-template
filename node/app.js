@@ -42,12 +42,15 @@ app.use(expressSession({
 //
 // Facebook authentication middleware
 //
+var FBCallback
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
+    callbackURL: app.get('env') === 'development' ?
+        'http://localhost:3000/auth/facebook/callback' :
+        'http://bingo.onehot.de/auth/facebook/callback'
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
         console.log('================================= USER PROFILE FROM FACEBOOK');
