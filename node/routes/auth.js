@@ -20,14 +20,10 @@ router.get('/facebook', passport.authenticate('facebook'));
 
 router.get('/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect: '/auth/success',
+        successRedirect: '/game/',
         failureRedirect: '/auth/error'
     })
 );
-
-router.get('/success', function (req, res, next) {
-    res.send(req.user);
-})
 
 router.get('/error', function (req, res, next) {
     res.send('Error');
