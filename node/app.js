@@ -1,5 +1,7 @@
 'use strict';
 
+var config = require('./config');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,10 +13,6 @@ var mongoose = require('mongoose');
 var expressSession = require( 'express-session' );
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-
-// Facebook login credentials
-var FACEBOOK_APP_ID = '928723270595945';
-var FACEBOOK_APP_SECRET = '2d47fc49af0d741c56c2680a5ba62820';
 
 var app = express();
 
@@ -30,10 +28,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Setup Sessions
 app.use(expressSession({
-    secret: '42',
+    secret: config.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     name: 'sid'
@@ -42,19 +39,16 @@ app.use(expressSession({
 //
 // Facebook authentication middleware
 //
-var FBCallback
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
+    clientID: config.FACEBOOK_APP_ID,
+    clientSecret: config.FACEBOOK_APP_SECRET,
     callbackURL: app.get('env') === 'development' ?
         'http://localhost:3000/auth/facebook/callback' :
         'http://bingo.onehot.de/auth/facebook/callback'
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-        console.log('================================= USER PROFILE FROM FACEBOOK');
-        console.log(profile);
         //Assuming user exists
         done(null, profile);
     });
