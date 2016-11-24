@@ -1,3 +1,5 @@
+'use strict';
+
 var socket = io();
 
 var click_sound = new Audio('/sounds/pop_drip.wav');
