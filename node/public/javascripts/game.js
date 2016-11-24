@@ -1,20 +1,25 @@
 var socket = io();
+
 var click_sound = new Audio('/sounds/pop_drip.wav');
 var bingo_sound_1 = new Audio('/sounds/thats-a-bingo.mp3');
 var bingo_sound_2 = new Audio('/sounds/male-voice-bingo.mp3');
 
+/**
+ * Calculate the number of bingos (horizontal, vertical or diagonal lines of four squares) within a given game-matrix.
+ * The game matrix is entered as a string of length 16. Every character is either a 1 or a 0. A zero represents a cell
+ * that is not already crossed out. IF the input String does not conform with these requirements, the behavior is not
+ * defined.
+ */
 function get_num_bingos_from_string(matrix_string) {
 
     // Input String is parsed as integer to allow binary comparison
     var matrix_int = parseInt(matrix_string, 2);
+
     var num_bingos = 0;
 
-    // This array stores a list of correct score_matrix values to be
-    // used as binary masks. Strings need to be parsed as integers
-    // and after that compared with matrix_int via binary and.
-    //
-    // Two separate maps are used in order to not repeat the parse()
-    // call.
+    // This array stores a list of correct score_matrix values to be used as binary masks. Strings need to be parsed as
+    // integers and after that compared with matrix_int via binary and. Two separate maps are used in order to not
+    // repeat the parse()call.
     [
         // Rows
         '1111000000000000',
@@ -39,6 +44,9 @@ function get_num_bingos_from_string(matrix_string) {
     return num_bingos;
 }
 
+/**
+ * This function plays a random sound from all defined bingo-sounds
+ */
 function play_random_bingo_sound() {
 
     var sounds = [
@@ -49,6 +57,11 @@ function play_random_bingo_sound() {
     sounds[Math.floor(Math.random() * sounds.length)].play();
 }
 
+/**
+ * Upon successful connection to the server via websockets, the games name and player-id are parsed from the url and
+ * a request is sent to the server. The server will respond with further information about the game (words, state of the
+ * game table etc).
+ */
 socket.on('connect', function (s) {
 
     // Parse game name and user id from current URL
@@ -66,7 +79,10 @@ socket.on('connect', function (s) {
     });
 });
 
-// Server sends an update to the game board (words, crossout state, etc...). This is then rendered to the dom
+/**
+ * The server has sent information about the current state of the game board (words, crossed-out cells, etc.) This
+ * information is then rendered to the DOM.
+ */
 socket.on('game_update', function (data) {
 
     console.log('Received: game_update');
