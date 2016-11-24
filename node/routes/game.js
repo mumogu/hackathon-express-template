@@ -34,6 +34,7 @@ function fisher_yates_shuffle(array) {
  * appropriate message.
  */
 router.get('/', function (req, res, next) {
+    console.log(req.user);
     Game.find({}, function (err, games) {
         res.render('games_list', {'games': games});
     });

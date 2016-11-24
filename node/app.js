@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var mongoose = require('mongoose');
+var expressSession = require( 'express-session' );
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -29,6 +30,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Setup Sessions
+app.use(expressSession({
+    secret: '42',
+    resave: true,
+    saveUninitialized: true,
+    name: 'sid'
+}));
+
 //
 // Facebook authentication middleware
 //
@@ -40,6 +50,8 @@ passport.use(new FacebookStrategy({
     callbackURL: 'http://localhost:3000/auth/facebook/callback'
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
+        console.log('================================= USER PROFILE FROM FACEBOOK');
+        console.log(profile);
         //Assuming user exists
         done(null, profile);
     });
