@@ -1,3 +1,5 @@
+/*jshint bitwise: false*/
+/*jshint -W030*/
 'use strict';
 
 var socket = io();
@@ -39,8 +41,9 @@ function get_num_bingos_from_string(matrix_string) {
     ].map(function(mask_string) {
         return parseInt(mask_string, 2);
     }).map(function(mask_int) {
-        if((matrix_int & mask_int) == mask_int)
+        if((matrix_int & mask_int) == mask_int) {
             num_bingos++;
+        }
     });
 
     return num_bingos;
@@ -111,7 +114,7 @@ socket.on('game_update', function (data) {
 
 socket.on('status_update', function (data) {
 
-    active_players = data.active_players;
+    var active_players = data.active_players;
 
     $('ul#player-list').empty();
     $('ul#inactive-player-list').empty();
@@ -147,12 +150,11 @@ socket.on('status_update', function (data) {
 
 function getScoreMatrix() {
     var ret = '';
+
     $('div.square').each(function (i) {
-        if ($(this).hasClass('crossout'))
-            ret += '1'
-        else
-            ret += '0'
+        $(this).hasClass('crossout') ? ret += '1' : ret += '0';
     });
+
     return ret;
 }
 
@@ -160,7 +162,7 @@ function getScoreMatrix() {
 $(document).ready(function () {
     $('div.square').click(function () {
         var score_matrix = getScoreMatrix();
-        last_score = get_num_bingos_from_string(score_matrix);
+        var last_score = get_num_bingos_from_string(score_matrix);
 
         $(this).toggleClass('crossout');
 
@@ -168,8 +170,9 @@ $(document).ready(function () {
         var current_score = get_num_bingos_from_string(current_score_matrix);
         socket.emit('score_update', current_score_matrix);
 
-        if(current_score > last_score)
+        if(current_score > last_score) {
             play_random_bingo_sound();
+        }
         //else
         //    click_sound.play();
     });
