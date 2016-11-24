@@ -20,8 +20,6 @@ var app = express();
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -45,8 +43,7 @@ passport.use(new FacebookStrategy({
     clientID: config.FACEBOOK_APP_ID,
     clientSecret: config.FACEBOOK_APP_SECRET,
     callbackURL: app.get('env') === 'development' ?
-        'http://localhost:3000/auth/facebook/callback' :
-        'http://bingo.onehot.de/auth/facebook/callback'
+        config.FACEBOOK_LOCAL_CALLBACK_URL : config.FACEBOOK_REMOTE_CALLBACK_URL
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
         //Assuming user exists
@@ -63,7 +60,7 @@ passport.deserializeUser(function(obj, done) {
 });
 
 // Load database connection
-mongoose.connect('mongodb://mongo/test');
+mongoose.connect(config.DATABASE_URL);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
