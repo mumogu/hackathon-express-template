@@ -1,14 +1,14 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
 // Load models
-var Player = require('../models/player');
-var Game = require('../models/game');
+// var Player = require('../models/player');
+// var Game = require('../models/game');
 
-//
-// Get all Games and list them
-//
+
 router.get('/', function (req, res, next) {
     res.render('auth', {
         isAuthenticated: req.isAuthenticated(),
@@ -32,6 +32,6 @@ router.get('/logout', function(req, res) {
 
 router.get('/error', function (req, res, next) {
     res.send('Error');
-})
+});
 
 module.exports = router;

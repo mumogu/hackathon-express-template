@@ -56,7 +56,7 @@ router.post('/create', function (req, res, next) {
 
     // Filter out empty lines in the words textarea
     var game_words = req.body.words.split('\r\n').filter(function (w) {
-        return w != ''
+        return w !== '';
     });
 
     // Check if the name of the game is shorter than 2 characters, includes spaces or less than 16 words were entered

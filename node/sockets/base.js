@@ -36,8 +36,8 @@ module.exports = function (io) {
     io.on('connection', function (socket) {
         console.log('A client connected');
 
-        var game_name = undefined;
-        var player_id = undefined;
+        var game_name;
+        var player_id;
 
         // When a client loads a game board, it sends an init message containing the game- and player ids parsed from
         // the pages url
