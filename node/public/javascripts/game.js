@@ -1,20 +1,31 @@
+/*jshint bitwise: false*/
+/*jshint -W030*/
+'use strict';
+
+var PLAY_CLICK_SOUND = false;
+
 var socket = io();
+
 var click_sound = new Audio('/sounds/pop_drip.wav');
 var bingo_sound_1 = new Audio('/sounds/thats-a-bingo.mp3');
 var bingo_sound_2 = new Audio('/sounds/male-voice-bingo.mp3');
 
+/**
+ * Calculate the number of bingos (horizontal, vertical or diagonal lines of four squares) within a given game-matrix.
+ * The game matrix is entered as a string of length 16. Every character is either a 1 or a 0. A zero represents a cell
+ * that is not already crossed out. IF the input String does not conform with these requirements, the behavior is not
+ * defined.
+ */
 function get_num_bingos_from_string(matrix_string) {
 
     // Input String is parsed as integer to allow binary comparison
     var matrix_int = parseInt(matrix_string, 2);
+
     var num_bingos = 0;
 
-    // This array stores a list of correct score_matrix values to be
-    // used as binary masks. Strings need to be parsed as integers
-    // and after that compared with matrix_int via binary and.
-    //
-    // Two separate maps are used in order to not repeat the parse()
-    // call.
+    // This array stores a list of correct score_matrix values to be used as binary masks. Strings need to be parsed as
+    // integers and after that compared with matrix_int via binary and. Two separate maps are used in order to not
+    // repeat the parse()call.
     [
         // Rows
         '1111000000000000',
@@ -29,16 +40,20 @@ function get_num_bingos_from_string(matrix_string) {
         // Diagonals
         '1000010000100001',
         '0001001001001000'
-    ].map(function(mask_string) {
+    ].map(function (mask_string) {
         return parseInt(mask_string, 2);
-    }).map(function(mask_int) {
-        if((matrix_int & mask_int) == mask_int)
+    }).map(function (mask_int) {
+        if ((matrix_int & mask_int) == mask_int) {
             num_bingos++;
+        }
     });
 
     return num_bingos;
 }
 
+/**
+ * This function plays a random sound from all defined bingo-sounds
+ */
 function play_random_bingo_sound() {
 
     var sounds = [
@@ -49,6 +64,51 @@ function play_random_bingo_sound() {
     sounds[Math.floor(Math.random() * sounds.length)].play();
 }
 
+/**
+ * Take the current DOM and extract the score matrix, a string of length 16 which consists of 0s and 1s, indicating
+ * whether the corresponding cell in the table is crossed out or not.
+ */
+function getScoreMatrix() {
+    var ret = '';
+
+    $('div.square').each(function (i) {
+        $(this).hasClass('crossout') ? ret += '1' : ret += '0';
+    });
+
+    return ret;
+}
+
+/**
+ * UI-triggered functions
+ */
+$(document).ready(function () {
+
+    // If a square is clicked, mark it as crossed out, inform the server about the change and play sounds
+    $('div.square').click(function () {
+        var score_matrix = getScoreMatrix();
+        var last_score = get_num_bingos_from_string(score_matrix);
+
+        $(this).toggleClass('crossout');
+
+        var current_score_matrix = getScoreMatrix();
+        var current_score = get_num_bingos_from_string(current_score_matrix);
+        socket.emit('score_update', current_score_matrix);
+
+        if (current_score > last_score) {
+            play_random_bingo_sound();
+        }
+        else if (PLAY_CLICK_SOUND) {
+            click_sound.play();
+        }
+
+    });
+});
+
+/**
+ * Upon successful connection to the server via websockets, the games name and player-id are parsed from the url and
+ * a request is sent to the server. The server will respond with further information about the game (words, state of the
+ * game table etc).
+ */
 socket.on('connect', function (s) {
 
     // Parse game name and user id from current URL
@@ -66,7 +126,10 @@ socket.on('connect', function (s) {
     });
 });
 
-// Server sends an update to the game board (words, crossout state, etc...). This is then rendered to the dom
+/**
+ * The server has sent information about the current state of the game board (words, crossed-out cells, etc.) This
+ * information is then rendered to the DOM.
+ */
 socket.on('game_update', function (data) {
 
     console.log('Received: game_update');
@@ -91,9 +154,13 @@ socket.on('game_update', function (data) {
     });
 });
 
+/**
+ * The server sent an update to the player list (online-status change of a player, a player scored a bingo). This
+ * information is then rendered to the DOM.
+ */
 socket.on('status_update', function (data) {
 
-    active_players = data.active_players;
+    var active_players = data.active_players;
 
     $('ul#player-list').empty();
     $('ul#inactive-player-list').empty();
@@ -110,7 +177,8 @@ socket.on('status_update', function (data) {
                 '</b> (' +
                 player.num_hits +
                 ' Treffer, ' +
-                (player.is_online ? '<span style="color: green;">online</span>)' : '<span style="color: red;">offline</span>)') +
+                (player.is_online ? '<span style="color: green;">online</span>)' :
+                    '<span style="color: red;">offline</span>)') +
                 (bingos ? ' <span class="glyphicon glyphicon-thumbs-up"></span>' +
                 ( bingos > 1 ? ' x' + bingos : '' ) : '') +
                 '</li>');
@@ -121,39 +189,9 @@ socket.on('status_update', function (data) {
                 '</b> (' +
                 player.num_hits +
                 ' Treffer, ' +
-                (player.is_online ? '<span style="color: green;">online</span>)' : '<span style="color: red;">offline</span>)') +
+                (player.is_online ? '<span style="color: green;">online</span>)' :
+                    '<span style="color: red;">offline</span>)') +
                 '</li>');
         }
     });
 });
-
-function getScoreMatrix() {
-    var ret = '';
-    $('div.square').each(function (i) {
-        if ($(this).hasClass('crossout'))
-            ret += '1'
-        else
-            ret += '0'
-    });
-    return ret;
-}
-
-// UI-triggered functions
-$(document).ready(function () {
-    $('div.square').click(function () {
-        var score_matrix = getScoreMatrix();
-        last_score = get_num_bingos_from_string(score_matrix);
-
-        $(this).toggleClass('crossout');
-
-        var current_score_matrix = getScoreMatrix();
-        var current_score = get_num_bingos_from_string(current_score_matrix);
-        socket.emit('score_update', current_score_matrix);
-
-        if(current_score > last_score)
-            play_random_bingo_sound();
-        //else
-        //    click_sound.play();
-    });
-});
-

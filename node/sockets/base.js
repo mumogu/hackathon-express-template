@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function (io) {
 
     function sendStatusUpdateToAllPlayers(game, player, is_online) {
@@ -34,8 +36,8 @@ module.exports = function (io) {
     io.on('connection', function (socket) {
         console.log('A client connected');
 
-        var game_name = undefined;
-        var player_id = undefined;
+        var game_name;
+        var player_id;
 
         // When a client loads a game board, it sends an init message containing the game- and player ids parsed from
         // the pages url
@@ -87,8 +89,8 @@ module.exports = function (io) {
                 player.score_matrix = data;
                 player.save();
 
-                Game.findOne({ name: decodeURIComponent(game_name) }, function(err, game) {
-                    if(err || !game) {
+                Game.findOne({name: decodeURIComponent(game_name)}, function (err, game) {
+                    if (err || !game) {
                         console.log('score_update: game not found. Aborting');
                         return;
                     }
